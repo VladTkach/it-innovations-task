@@ -1,3 +1,11 @@
-<div *ngFor="let book of books">
-  <app-book-details [book]="book"></app-book-details>
+<div class="container">
+  <div class="action-sector">
+    <button mat-raised-button color="primary" (click)="openCreateModal()">Create</button>
+  </div>
+  <div class="book-list-sector">
+    <div *ngFor="let book of books">
+      <app-book-details [book]="book"></app-book-details>
+    </div>
+  </div>
 </div>
+

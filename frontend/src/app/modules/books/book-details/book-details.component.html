@@ -1,9 +1,14 @@
 <mat-card *ngIf="book" class="book-card">
   <mat-card-header>
     <mat-card-title>{{book.name}}</mat-card-title>
-    <mat-card-subtitle>{{book.createdAt}}</mat-card-subtitle>
+    <mat-card-subtitle>page: {{book.pageCount}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-   <p>{{book.description}}</p>
+    <div class="description">
+      <p>{{book.description}}</p>
+    </div>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <mat-card-subtitle>{{book.createdAt | date:'mediumDate'}}</mat-card-subtitle>
+  </mat-card-actions>
 </mat-card>
