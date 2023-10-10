@@ -14,6 +14,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddBookContext(_configuration);
+        services.RegisterAutoMapper();
         
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();

@@ -1,4 +1,5 @@
-﻿using Book.DAL.Context;
+﻿using System.Reflection;
+using Book.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Book.WebApi.Extensions;
@@ -11,5 +12,10 @@ public static class ServiceExtensions
         services.AddDbContext<BookContext>(options =>
             options.UseSqlServer(configuration["ConnectionStrings:BookDBConnection"],
                 opt => opt.MigrationsAssembly(migrationAssembly)));
+    }
+
+    public static void RegisterAutoMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 }
