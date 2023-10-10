@@ -1,5 +1,6 @@
 ﻿using Library.BLL.Extensions;
 using Library.WebApi.Extensions;
+using Library.WebApi.Filter;
 
 namespace Library.WebApi;
 
@@ -22,7 +23,11 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        services.AddControllers();
+        services.AddControllers(o =>
+        {
+            o.Filters.Add(typeof(CustomExceptionFilter));
+        });
+        services.AddValidation();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
