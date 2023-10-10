@@ -16,6 +16,8 @@ public class Startup
         services.AddBookContext(_configuration);
         services.RegisterAutoMapper();
         
+        services.RegisterCustomServices();
+        
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
