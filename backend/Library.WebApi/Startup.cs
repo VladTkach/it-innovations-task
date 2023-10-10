@@ -27,6 +27,7 @@ public class Startup
         {
             o.Filters.Add(typeof(CustomExceptionFilter));
         });
+        services.AddValidation();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
