@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.DAL.Context;
 
-public class BookContext: DbContext
+public class LibraryContext: DbContext
 {
     public DbSet<Book> Books { get; set; }
     
-    public BookContext(DbContextOptions<BookContext> options): base(options)
+    public LibraryContext(DbContextOptions<LibraryContext> options): base(options)
     {
     }
 }

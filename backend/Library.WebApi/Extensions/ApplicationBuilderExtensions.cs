@@ -5,10 +5,10 @@ namespace Library.WebApi.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
-    public static void UseBookContext(this IApplicationBuilder app)
+    public static void UseLibraryContext(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
-        using var context = scope?.ServiceProvider.GetRequiredService<BookContext>();
+        using var context = scope?.ServiceProvider.GetRequiredService<LibraryContext>();
         context?.Database.Migrate();
     }
 }

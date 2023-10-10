@@ -13,7 +13,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddBookContext(_configuration);
+        services.AddLibraryContext(_configuration);
         services.RegisterAutoMapper();
         
         services.RegisterCustomServices();
@@ -43,7 +43,7 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
         
-        app.UseBookContext();
+        app.UseLibraryContext();
 
         app.UseEndpoints(cfg => { cfg.MapControllers(); });
     }

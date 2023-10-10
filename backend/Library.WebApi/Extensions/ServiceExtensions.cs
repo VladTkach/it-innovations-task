@@ -12,11 +12,11 @@ public static class ServiceExtensions
     {
         services.AddScoped<IBookService, BookService>();
     }
-    public static void AddBookContext(this IServiceCollection services, IConfiguration configuration)
+    public static void AddLibraryContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var migrationAssembly = typeof(BookContext).Assembly.GetName().Name;
-        services.AddDbContext<BookContext>(options =>
-            options.UseSqlServer(configuration["ConnectionStrings:BookDBConnection"],
+        var migrationAssembly = typeof(LibraryContext).Assembly.GetName().Name;
+        services.AddDbContext<LibraryContext>(options =>
+            options.UseSqlServer(configuration["ConnectionStrings:LibraryDBConnection"],
                 opt => opt.MigrationsAssembly(migrationAssembly)));
     }
 

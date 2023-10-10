@@ -10,7 +10,7 @@ namespace Library.BLL.Services;
 
 public class BookService : BaseService, IBookService
 {
-    public BookService(BookContext context, IMapper mapper) : base(context, mapper)
+    public BookService(LibraryContext context, IMapper mapper) : base(context, mapper)
     {
     }
 
