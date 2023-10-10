@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Library.BLL.Exceptions;
 using Library.Common.DTO.Book;
 using Library.DAL.Context;
 using Library.BLL.Interfaces;
@@ -56,7 +57,7 @@ public class BookService : BaseService, IBookService
         var book = await _context.Books.FindAsync(bookId);
         if (book is null)
         {
-            throw new Exception("Not found");
+            throw new NotFoundException(nameof(Book));
         }
 
         return book;
