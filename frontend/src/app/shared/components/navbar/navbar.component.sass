@@ -1,0 +1,42 @@
+@import "/src/styles/color"
+
+.container
+  width: 100%
+  height: 60px
+  box-shadow: 0 6px 10px 0 $shadow
+  margin-bottom: 20px
+  display: flex
+  justify-content: center
+  align-items: center
+
+.nav
+  height: 100%
+  display: flex
+
+.nav-item
+  height: 100%
+  width: 80px
+  display: flex
+  align-items: center
+  justify-content: center
+  cursor: pointer
+  position: relative
+
+  &:after
+    content: ""
+    display: none
+    position: absolute
+    bottom: 0
+    left: 0
+    height: 5px
+    width: 100%
+    border-radius: 5px
+    background-color: $blue
+
+  &:hover
+    &:after
+      display: block
+
+.active
+  &:after
+    display: block
