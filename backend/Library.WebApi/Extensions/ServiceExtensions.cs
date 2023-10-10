@@ -19,9 +19,4 @@ public static class ServiceExtensions
             options.UseSqlServer(configuration["ConnectionStrings:LibraryDBConnection"],
                 opt => opt.MigrationsAssembly(migrationAssembly)));
     }
-
-    public static void RegisterAutoMapper(this IServiceCollection services)
-    {
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-    }
 }
