@@ -1,4 +1,6 @@
-﻿namespace Book.WebApi;
+﻿using Book.WebApi.Extensions;
+
+namespace Book.WebApi;
 
 public class Startup
 {
@@ -11,6 +13,8 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddBookContext(_configuration);
+        
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
@@ -35,6 +39,8 @@ public class Startup
 
         app.UseAuthentication();
         app.UseAuthorization();
+        
+        app.UseBookContext();
 
         app.UseEndpoints(cfg => { cfg.MapControllers(); });
     }
