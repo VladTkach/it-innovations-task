@@ -5,6 +5,7 @@ import {BaseComponent} from "../../../core/base/base.component";
 import {takeUntil} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
+import {UpdateBookDto} from "../../../models/book/update-book-dto";
 
 @Component({
   selector: 'app-books-page',
@@ -31,6 +32,38 @@ export class BooksPageComponent extends BaseComponent implements OnInit{
       this.books.push(newBook);
       dialogRef.close();
     })
+  }
+
+  public updateBook(book: BookDto){
+    const updatedBook: UpdateBookDto = {
+      id: book.id,
+      name: book.name,
+      description: book.description,
+      pageCount: book.pageCount
+    }
+
+    const dialogRef = this.dialog.open(CreateBookModalComponent, {
+      width: '450px',
+      autoFocus: false,
+      data: {
+        isUpdate: true,
+        updateBook: updatedBook
+      }
+    });
+  }
+
+  public deleteBook(bookId: number){
+    console.log(bookId);
+    this.bookService.deleteBook(bookId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: _ => {
+          const bookIndex = this.books.findIndex(b => b.id === bookId);
+          if (bookIndex !== -1){
+            this.books.splice(bookIndex, 1);
+          }
+        }
+      })
   }
 
   private loadBooks(){

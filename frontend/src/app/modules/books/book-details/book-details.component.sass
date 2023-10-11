@@ -1,6 +1,14 @@
 .book-card
   width: 400px
   height: 200px
+  &:hover
+    .action
+      display: block
+
+.header
+  display: flex
+  justify-content: space-between
+  align-items: start
 
 .description
   height: 80px
@@ -9,3 +17,9 @@
   p
     overflow: hidden
     text-overflow: ellipsis
+
+.action
+  display: none
+
+.active
+  display: block

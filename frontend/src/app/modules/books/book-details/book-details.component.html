@@ -1,7 +1,23 @@
-<mat-card *ngIf="book" class="book-card">
-  <mat-card-header>
+<mat-card *ngIf="book" class="book-card" (mouseenter)="menuVisible = true"
+          (mouseleave)="menuOpen ? menuVisible = true : menuVisible = false">
+  <mat-card-header class="header">
     <mat-card-title>{{book.name}}</mat-card-title>
     <mat-card-subtitle>page: {{book.pageCount}}</mat-card-subtitle>
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="action" [class.active]="menuVisible || menuOpen"
+            (click)="menuOpen = true">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" (closed)="menuOpen = false">
+      <button mat-menu-item (click)="update()">
+        <mat-icon>edit</mat-icon>
+        <span>Update</span>
+      </button>
+      <button mat-menu-item (click)="delete()">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+
   </mat-card-header>
   <mat-card-content>
     <div class="description">

@@ -5,6 +5,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import {MatInputModule} from "@angular/material/input";
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule
   ],
   exports: [
     CommonModule,
@@ -22,7 +24,8 @@ import {MatInputModule} from "@angular/material/input";
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule {

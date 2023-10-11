@@ -4,7 +4,9 @@
   </div>
   <div class="book-list-sector">
     <div *ngFor="let book of books">
-      <app-book-details [book]="book"></app-book-details>
+      <app-book-details [book]="book" (updateBook)="updateBook(book)"
+                        (deleteBook)="deleteBook(book.id)">
+      </app-book-details>
     </div>
   </div>
 </div>
