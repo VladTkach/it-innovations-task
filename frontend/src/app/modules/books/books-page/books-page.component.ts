@@ -25,7 +25,11 @@ export class BooksPageComponent extends BaseComponent implements OnInit{
   public openCreateModal(){
     const dialogRef = this.dialog.open(CreateBookModalComponent, {
       width: '450px',
-      autoFocus: false
+      autoFocus: false,
+      data: {
+        isUpdate: false,
+        updateBook: undefined
+      }
     });
 
     dialogRef.componentInstance.bookCreated.subscribe((newBook) => {
@@ -50,6 +54,15 @@ export class BooksPageComponent extends BaseComponent implements OnInit{
         updateBook: updatedBook
       }
     });
+
+    dialogRef.componentInstance.bookCreated.subscribe((newBook) => {
+      const bookIndex = this.books.findIndex(b => b.id == newBook.id);
+      if (bookIndex != -1){
+        this.books.splice(bookIndex, 1, newBook);
+      }
+      dialogRef.close();
+    })
+
   }
 
   public deleteBook(bookId: number){
