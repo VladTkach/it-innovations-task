@@ -4,7 +4,7 @@ import {BookDto} from "../../../models/book/book-dto";
 import {BaseComponent} from "../../../core/base/base.component";
 import {takeUntil} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
-import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
+import {BookModalComponent} from "../book-modal/book-modal.component";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ExportService} from "../../../core/services/export.service";
@@ -42,7 +42,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public openCreateModal() {
-    const dialogRef = this.dialog.open(CreateBookModalComponent, {
+    const dialogRef = this.dialog.open(BookModalComponent, {
       width: '450px',
       autoFocus: false,
       data: {
@@ -67,7 +67,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       createdAt: new Date(book.createdAt)
     }
 
-    const dialogRef = this.dialog.open(CreateBookModalComponent, {
+    const dialogRef = this.dialog.open(BookModalComponent, {
       width: '450px',
       autoFocus: false,
       data: {

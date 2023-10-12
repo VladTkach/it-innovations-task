@@ -11,12 +11,14 @@ import {DateFormatter} from "../../../shared/heplers/date-formatter";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-create-book-modal',
-  templateUrl: './create-book-modal.component.html',
-  styleUrls: ['./create-book-modal.component.sass']
+  selector: 'app-book-modal',
+  templateUrl: './book-modal.component.html',
+  styleUrls: ['./book-modal.component.sass']
 })
-export class CreateBookModalComponent extends BaseComponent implements OnInit{
+export class BookModalComponent extends BaseComponent implements OnInit{
   @Output() public bookCreated = new EventEmitter<BookDto>();
+
+  public maxDate: Date = new Date();
 
   public bookForm?: FormGroup;
 
@@ -24,7 +26,7 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
 
   public updateBook?: UpdateBookDto;
   constructor(
-    public dialogRef: MatDialogRef<CreateBookModalComponent>,
+    public dialogRef: MatDialogRef<BookModalComponent>,
     private formBuilder: FormBuilder,
     private bookService: BookService,
     @Inject(MAT_DIALOG_DATA) public data: { isUpdate: boolean, updateBook: UpdateBookDto},

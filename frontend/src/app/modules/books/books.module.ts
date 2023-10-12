@@ -5,7 +5,7 @@ import {BooksRoutingModule} from './books-routing.module';
 import {BooksPageComponent} from './books-page/books-page.component';
 import {BookDetailsComponent} from './book-details/book-details.component';
 import {MaterialModule} from "../../material/material.module";
-import {CreateBookModalComponent} from './create-book-modal/create-book-modal.component';
+import {BookModalComponent} from './book-modal/book-modal.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
@@ -13,7 +13,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   declarations: [
     BooksPageComponent,
     BookDetailsComponent,
-    CreateBookModalComponent
+    BookModalComponent
   ],
     imports: [
         CommonModule,
