@@ -1,0 +1,48 @@
+<mat-dialog-content style="height: 100%;">
+  <div class="header">
+    <h4 class="header-title">{{isUpdate ? 'Update' : 'Create new'}} book</h4>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form class="form">
+    <mat-form-field [style.width.%]="100">
+      <mat-label>Name</mat-label>
+      <input [formControl]="$any(bookForm!.controls['name'])" matInput>
+      <mat-error *ngIf="$any(bookForm!.controls['name'].hasError('required'))">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field [style.width.%]="100" [style.height.px]="150">
+      <mat-label>Description</mat-label>
+      <textarea [formControl]="$any(bookForm!.controls['description'])" matInput cdkTextareaAutosize
+                cdkAutosizeMaxRows="6" style="resize: none"></textarea>
+      <mat-error *ngIf="$any(bookForm!.controls['description'].hasError('required'))">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field [style.width.%]="100">
+      <mat-label>Page count</mat-label>
+      <input type="number" min="1" [formControl]="$any(bookForm!.controls['pageCount'])" matInput>
+      <mat-error *ngIf="$any(bookForm!.controls['pageCount'].hasError('required'))">
+        Page count is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field [style.width.%]="100">
+      <mat-label>Choose create date</mat-label>
+      <input [formControl]="$any(bookForm!.controls['createdAt'])" matInput [matDatepicker]="picker" [max]="maxDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="$any(bookForm!.controls['createdAt'].hasError('required'))">
+         Create date is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+  <button mat-raised-button color="primary" [disabled]="bookForm!.invalid"
+          (click)="isUpdate ? update() : create()">{{isUpdate ? 'Update' : 'Create'}}</button>
+</mat-dialog-content>
