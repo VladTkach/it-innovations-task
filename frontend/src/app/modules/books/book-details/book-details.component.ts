@@ -8,9 +8,11 @@ import {BookDto} from "../../../models/book/book-dto";
 })
 export class BookDetailsComponent {
   @Input() book?: BookDto;
+  @Input() selected?: boolean;
 
   @Output() updateBook = new EventEmitter();
   @Output() deleteBook = new EventEmitter();
+  @Output() selectBook: EventEmitter<void> = new EventEmitter<void>();
 
   public menuVisible = false;
   public menuOpen = false;
@@ -21,5 +23,14 @@ export class BookDetailsComponent {
 
   public delete(){
     this.deleteBook.emit();
+  }
+
+  selectBookHandler(): void {
+    this.selectBook.emit();
+  }
+
+  menuClick($event: MouseEvent) {
+    this.menuOpen = true;
+    $event.stopPropagation();
   }
 }

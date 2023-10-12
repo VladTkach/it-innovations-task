@@ -16,6 +16,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class BooksPageComponent extends BaseComponent implements OnInit {
   public books: BookDto[] = [];
   public filteredBooks: BookDto[] = [];
+  public selectedBooks: BookDto[] = [];
 
   public sortValue: string[] = ['Name', 'Date', 'Page count'];
   public selectedSort?: string;
@@ -72,11 +73,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     });
 
     dialogRef.componentInstance.bookCreated.subscribe((newBook) => {
-      const bookIndex = this.books.findIndex(b => b.id == newBook.id);
-      if (bookIndex != -1) {
-        this.books.splice(bookIndex, 1, newBook);
-        this.filterBooks();
-      }
+      this.updateBookHandle(newBook);
       dialogRef.close();
       this.showCancelBtn = true;
     })
@@ -88,13 +85,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     this.bookService.deleteBook(bookId)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: _ => {
-          const bookIndex = this.books.findIndex(b => b.id === bookId);
-          if (bookIndex !== -1) {
-            this.books.splice(bookIndex, 1);
-          }
-          this.filterBooks();
-        }
+        next: _ => this.deleteBookHandle(bookId)
       })
   }
 
@@ -106,11 +97,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: newBook => {
-          const bookIndex = this.books.findIndex(b => b.id == newBook.id);
-          if (bookIndex != -1) {
-            this.books.splice(bookIndex, 1, newBook);
-            this.filterBooks();
-          }
+          this.updateBookHandle(newBook);
           this.showCancelBtn = false;
         }
       })
@@ -157,6 +144,19 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     this.filterBooks();
   }
 
+  public isSelected(book: BookDto): boolean {
+    return this.selectedBooks.some(selectedBook => selectedBook.id === book.id);
+  }
+
+  toggleSelection(book: BookDto): void {
+    const index = this.selectedBooks.findIndex(selectedBook => selectedBook.id === book.id);
+    if (index === -1) {
+      this.selectedBooks.push(book);
+    } else {
+      this.selectedBooks.splice(index, 1);
+    }
+  }
+
   private sortBooks(){
     switch (this.selectedSort) {
       case 'Name':
@@ -192,5 +192,33 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       start: [null],
       end: [null],
     })
+  }
+
+  private deleteBookHandle(bookId: number){
+    const bookIndex = this.books.findIndex(b => b.id === bookId);
+    if (bookIndex !== -1) {
+      this.books.splice(bookIndex, 1);
+    }
+
+    const index = this.selectedBooks.findIndex(selectedBook => selectedBook.id === bookId);
+    if (index !== -1) {
+      this.selectedBooks.splice(index, 1);
+    }
+
+    this.filterBooks();
+  }
+
+  private updateBookHandle(newBook: BookDto){
+    const bookIndex = this.books.findIndex(b => b.id == newBook.id);
+    if (bookIndex != -1) {
+      this.books.splice(bookIndex, 1, newBook);
+    }
+
+    const index = this.selectedBooks.findIndex(selectedBook => selectedBook.id === newBook.id);
+    if (index !== -1) {
+      this.selectedBooks.splice(index, 1, newBook);
+    }
+
+    this.filterBooks();
   }
 }

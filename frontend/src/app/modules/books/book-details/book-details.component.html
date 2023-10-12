@@ -1,10 +1,10 @@
-<mat-card *ngIf="book" class="book-card" (mouseenter)="menuVisible = true"
-          (mouseleave)="menuOpen ? menuVisible = true : menuVisible = false">
+<mat-card [ngClass]="{'selected': selected}" *ngIf="book" class="book-card" (mouseenter)="menuVisible = true"
+          (mouseleave)="menuOpen ? menuVisible = true : menuVisible = false" (click)="selectBookHandler()">
   <mat-card-header class="header">
     <mat-card-title>{{book.name}}</mat-card-title>
     <mat-card-subtitle>page: {{book.pageCount}}</mat-card-subtitle>
     <button mat-icon-button [matMenuTriggerFor]="menu" class="action" [class.active]="menuVisible || menuOpen"
-            (click)="menuOpen = true">
+            (click)="menuClick($event)">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu" (closed)="menuOpen = false">
