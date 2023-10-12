@@ -7,6 +7,8 @@ import {MaterialModule} from "./material/material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from "@angular/common/http";
+import {NgChartsModule} from "ng2-charts";
+import {ChartModule} from "./modules/chart/chart.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import {HttpClientModule} from "@angular/common/http";
     MaterialModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgChartsModule,
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
