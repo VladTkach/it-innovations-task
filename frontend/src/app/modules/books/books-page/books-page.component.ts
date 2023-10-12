@@ -7,10 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import * as XLSX from 'xlsx';
-import { jsPDF} from "jspdf";
-import 'jspdf-autotable';
-import autoTable from "jspdf-autotable";
+import {ExportService} from "../../../core/services/export.service";
 
 @Component({
   selector: 'app-books-page',
@@ -32,7 +29,8 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private bookService: BookService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private exportService: ExportService) {
     super();
   }
 
@@ -164,28 +162,11 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public exportExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.filteredBooks);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Books');
-    XLSX.writeFile(wb, 'Books.xlsx');
+    this.exportService.exportExcel(this.filteredBooks);
   }
 
   public exportPDF(){
-    var doc = new jsPDF();
-    var col = ["Id", "Name", "Description", "Page count", "Crated At"];
-    var rows: any[] = [];
-
-    this.filteredBooks.forEach(element => {
-      var temp = [element.id, element.name, element.description, element.pageCount, element.createdAt];
-      rows.push(temp);
-
-    });
-
-    autoTable(doc,{
-      head: [col],
-      body: rows
-    })
-    doc.save('Books.pdf');
+    this.exportService.exportPDF(this.filteredBooks);
   }
 
   private sortBooks(){

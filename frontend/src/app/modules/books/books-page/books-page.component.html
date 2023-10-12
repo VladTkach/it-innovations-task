@@ -41,10 +41,14 @@
         <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
       </mat-form-field>
     </div>
-    <div class="button-group">
-      <button mat-raised-button color="primary" (click)="exportExcel()">Export Excel</button>
-      <button mat-raised-button color="primary" (click)="exportPDF()">Export PDF</button>
+    <div [matMenuTriggerFor]="exportMenu">
+      <button [disabled]="filteredBooks.length === 0" mat-raised-button color="primary">Export</button>
     </div>
+
+    <mat-menu #exportMenu="matMenu">
+      <button mat-menu-item (click)="exportExcel()">Export Excel</button>
+      <button mat-menu-item (click)="exportPDF()">Export PDF</button>
+    </mat-menu>
 
   </div>
   <mat-divider></mat-divider>
