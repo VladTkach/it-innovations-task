@@ -13,6 +13,7 @@ public static class ServiceExtensions
     public static void RegisterCustomServices(this IServiceCollection services)
     {
         services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IChartService, ChartService>();
     }
 
     public static void AddLibraryContext(this IServiceCollection services, IConfiguration configuration)
