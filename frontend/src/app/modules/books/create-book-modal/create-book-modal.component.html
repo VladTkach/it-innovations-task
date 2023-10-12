@@ -1,4 +1,4 @@
-<mat-dialog-content>
+<mat-dialog-content style="height: 100%;">
   <div class="header">
     <h4 class="header-title">{{isUpdate ? 'Update' : 'Create new'}} book</h4>
     <button mat-icon-button (click)="close()">
@@ -17,7 +17,8 @@
 
     <mat-form-field [style.width.%]="100" [style.height.px]="150">
       <mat-label>Description</mat-label>
-      <textarea [formControl]="$any(bookForm!.controls['description'])" matInput style="resize: none"></textarea>
+      <textarea [formControl]="$any(bookForm!.controls['description'])" matInput cdkTextareaAutosize
+                cdkAutosizeMaxRows="6" style="resize: none"></textarea>
     </mat-form-field>
 
     <mat-form-field [style.width.%]="100">
