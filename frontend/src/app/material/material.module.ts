@@ -6,6 +6,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [],
@@ -16,7 +17,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatIconModule,
     MatDialogModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ],
   exports: [
     CommonModule,
@@ -25,7 +27,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatIconModule,
     MatDialogModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ]
 })
 export class MaterialModule {

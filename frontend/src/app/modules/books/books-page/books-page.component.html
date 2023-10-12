@@ -1,9 +1,17 @@
 <div class="container">
   <div class="action-sector">
     <button mat-raised-button color="primary" (click)="openCreateModal()">Create</button>
+    <div class="filters">
+<!-- search - ; sort by name, date, page count, date range filter with fixed period-->
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input [formControl]="$any(filterForm!.controls['name'])" matInput (input)="filterBooks()">
+      </mat-form-field>
+    </div>
   </div>
+  <mat-divider></mat-divider>
   <div class="book-list-sector">
-    <div class="book" *ngFor="let book of books">
+    <div *ngFor="let book of filteredBooks">
       <app-book-details [book]="book" (updateBook)="updateBook(book)"
                         (deleteBook)="deleteBook(book.id)">
       </app-book-details>
