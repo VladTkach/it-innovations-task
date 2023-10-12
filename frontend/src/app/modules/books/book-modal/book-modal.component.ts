@@ -8,14 +8,17 @@ import {takeUntil} from "rxjs";
 import {BookDto} from "../../../models/book/book-dto";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {DateFormatter} from "../../../shared/heplers/date-formatter";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-create-book-modal',
-  templateUrl: './create-book-modal.component.html',
-  styleUrls: ['./create-book-modal.component.sass']
+  selector: 'app-book-modal',
+  templateUrl: './book-modal.component.html',
+  styleUrls: ['./book-modal.component.sass']
 })
-export class CreateBookModalComponent extends BaseComponent implements OnInit{
+export class BookModalComponent extends BaseComponent implements OnInit{
   @Output() public bookCreated = new EventEmitter<BookDto>();
+
+  public maxDate: Date = new Date();
 
   public bookForm?: FormGroup;
 
@@ -23,10 +26,11 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
 
   public updateBook?: UpdateBookDto;
   constructor(
-    public dialogRef: MatDialogRef<CreateBookModalComponent>,
+    public dialogRef: MatDialogRef<BookModalComponent>,
     private formBuilder: FormBuilder,
     private bookService: BookService,
-    @Inject(MAT_DIALOG_DATA) public data: { isUpdate: boolean, updateBook: UpdateBookDto}) {
+    @Inject(MAT_DIALOG_DATA) public data: { isUpdate: boolean, updateBook: UpdateBookDto},
+    private toastr: ToastrService) {
     super();
     this.isUpdate = data.isUpdate;
     this.updateBook = data.updateBook;
@@ -53,6 +57,7 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
       .subscribe({
         next: newBook => {
           this.bookCreated.emit(newBook);
+          this.toastr.info("Book successfully create")
         }
       })
   }
@@ -73,6 +78,7 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
       .subscribe({
         next: newBook => {
           this.bookCreated.emit(newBook);
+          this.toastr.info("Book successfully update")
         }
       })
   }
@@ -80,7 +86,7 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
   private loadForm(){
     this.bookForm = this.formBuilder.group({
       name: [this.updateBook ? this.updateBook.name : '', Validators.required],
-      description: [this.updateBook ? this.updateBook.description : ''],
+      description: [this.updateBook ? this.updateBook.description : '', Validators.required],
       pageCount: [this.updateBook ? this.updateBook.pageCount : 1, Validators.required],
       createdAt: [this.updateBook ? this.updateBook.createdAt : new Date(), Validators.required]
     })

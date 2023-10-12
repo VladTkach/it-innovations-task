@@ -19,6 +19,9 @@
       <mat-label>Description</mat-label>
       <textarea [formControl]="$any(bookForm!.controls['description'])" matInput cdkTextareaAutosize
                 cdkAutosizeMaxRows="6" style="resize: none"></textarea>
+      <mat-error *ngIf="$any(bookForm!.controls['description'].hasError('required'))">
+        Description is <strong>required</strong>
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field [style.width.%]="100">
@@ -30,12 +33,14 @@
     </mat-form-field>
 
     <mat-form-field [style.width.%]="100">
-      <mat-label>Choose a date</mat-label>
-      <input [formControl]="$any(bookForm!.controls['createdAt'])" matInput [matDatepicker]="picker">
+      <mat-label>Choose create date</mat-label>
+      <input [formControl]="$any(bookForm!.controls['createdAt'])" matInput [matDatepicker]="picker" [max]="maxDate">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="$any(bookForm!.controls['createdAt'].hasError('required'))">
+         Create date is <strong>required</strong>
+      </mat-error>
     </mat-form-field>
-
 
   </form>
   <button mat-raised-button color="primary" [disabled]="bookForm!.invalid"

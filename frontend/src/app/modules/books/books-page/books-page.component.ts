@@ -4,10 +4,11 @@ import {BookDto} from "../../../models/book/book-dto";
 import {BaseComponent} from "../../../core/base/base.component";
 import {takeUntil} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
-import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
+import {BookModalComponent} from "../book-modal/book-modal.component";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ExportService} from "../../../core/services/export.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-books-page',
@@ -30,7 +31,8 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private bookService: BookService,
               private formBuilder: FormBuilder,
-              private exportService: ExportService) {
+              private exportService: ExportService,
+              private toastr: ToastrService) {
     super();
   }
 
@@ -40,7 +42,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public openCreateModal() {
-    const dialogRef = this.dialog.open(CreateBookModalComponent, {
+    const dialogRef = this.dialog.open(BookModalComponent, {
       width: '450px',
       autoFocus: false,
       data: {
@@ -65,7 +67,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       createdAt: new Date(book.createdAt)
     }
 
-    const dialogRef = this.dialog.open(CreateBookModalComponent, {
+    const dialogRef = this.dialog.open(BookModalComponent, {
       width: '450px',
       autoFocus: false,
       data: {
@@ -101,6 +103,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
         next: newBook => {
           this.updateBookHandle(newBook);
           this.showCancelBtn = false;
+          this.toastr.info("Book update successfully cancel")
         }
       })
   }
