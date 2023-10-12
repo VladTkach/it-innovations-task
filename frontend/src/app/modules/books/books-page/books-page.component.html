@@ -1,13 +1,49 @@
 <div class="container">
   <div class="action-sector">
     <button mat-raised-button color="primary" (click)="openCreateModal()">Create</button>
+    <div class="filters">
+      <mat-form-field class="form-field">
+        <mat-label>Name</mat-label>
+        <input [formControl]="$any(filterForm!.controls['name'])" matInput (input)="filterBooks()">
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Sort By</mat-label>
+        <mat-select [(value)]="selectedSort" (selectionChange)="filterBooks()">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let option of sortValue" value="{{option}}">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Date range</mat-label>
+        <mat-date-range-input
+          [rangePicker]="campaignOnePicker">
+          <input matStartDate placeholder="Start date" [formControl]="$any(filterForm!.controls['start'])"
+                 (dateChange)="filterBooks()">
+          <input matEndDate placeholder="End date" [formControl]="$any(filterForm!.controls['end'])"
+                 (dateChange)="filterBooks()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [matMenuTriggerFor]="menu">
+          <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="setThisMonth()">This month</button>
+          <button mat-menu-item (click)="setThisYear()">This year</button>
+          <button mat-menu-item (click)="resetDate()">Reset</button>
+        </mat-menu>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
   </div>
+  <mat-divider></mat-divider>
   <div class="book-list-sector">
-    <div class="book" *ngFor="let book of books">
+    <div *ngFor="let book of filteredBooks">
       <app-book-details [book]="book" (updateBook)="updateBook(book)"
                         (deleteBook)="deleteBook(book.id)">
       </app-book-details>
     </div>
   </div>
+    <h1 *ngIf="filteredBooks.length === 0">No book found</h1>
 </div>
-

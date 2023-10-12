@@ -6,7 +6,7 @@ import {BooksPageComponent} from './books-page/books-page.component';
 import {BookDetailsComponent} from './book-details/book-details.component';
 import {MaterialModule} from "../../material/material.module";
 import {CreateBookModalComponent} from './create-book-modal/create-book-modal.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -15,12 +15,13 @@ import {ReactiveFormsModule} from "@angular/forms";
     BookDetailsComponent,
     CreateBookModalComponent
   ],
-  imports: [
-    CommonModule,
-    BooksRoutingModule,
-    MaterialModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        BooksRoutingModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        FormsModule
+    ]
 })
 export class BooksModule {
 }
