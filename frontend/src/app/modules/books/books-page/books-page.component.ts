@@ -104,7 +104,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public filterBooks() {
-    this.filteredBooks = this.books.filter(b => b.name.includes(this.filterForm?.value.name));
+    this.filteredBooks = this.books.filter(b =>  this.isSelected(b) || b.name.includes(this.filterForm?.value.name));
 
     if (this.filterForm?.value.start && this.filterForm?.value.end) {
 
@@ -114,7 +114,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       this.filteredBooks = this.filteredBooks.filter(b => {
         const createdAt = new Date(b.createdAt);
 
-        return createdAt >= startDate && createdAt <= endDate;
+        return this.isSelected(b) || (createdAt >= startDate && createdAt <= endDate);
       });
     }
     this.sortBooks();
@@ -148,13 +148,15 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     return this.selectedBooks.some(selectedBook => selectedBook.id === book.id);
   }
 
-  toggleSelection(book: BookDto): void {
+  public toggleSelection(book: BookDto): void {
     const index = this.selectedBooks.findIndex(selectedBook => selectedBook.id === book.id);
     if (index === -1) {
       this.selectedBooks.push(book);
     } else {
       this.selectedBooks.splice(index, 1);
     }
+
+    this.filterBooks();
   }
 
   private sortBooks(){
