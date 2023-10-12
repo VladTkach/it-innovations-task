@@ -45,6 +45,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
 
     dialogRef.componentInstance.bookCreated.subscribe((newBook) => {
       this.books.push(newBook);
+      this.filterBooks();
       dialogRef.close();
     })
   }
@@ -70,6 +71,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       const bookIndex = this.books.findIndex(b => b.id == newBook.id);
       if (bookIndex != -1) {
         this.books.splice(bookIndex, 1, newBook);
+        this.filterBooks();
       }
       dialogRef.close();
     })
@@ -93,6 +95,21 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   public filterBooks() {
     this.filteredBooks = this.books.filter(b => b.name.includes(this.filterForm?.value.name));
 
+    if (this.filterForm?.value.start && this.filterForm?.value.end) {
+
+      const startDate = new Date(this.filterForm?.value.start);
+      const endDate = new Date(this.filterForm?.value.end);
+
+      this.filteredBooks = this.filteredBooks.filter(b => {
+        const createdAt = new Date(b.createdAt);
+
+        return createdAt >= startDate && createdAt <= endDate;
+      });
+    }
+    this.sortBooks();
+  }
+
+  private sortBooks(){
     switch (this.selectedSort) {
       case 'Name':
         this.filteredBooks = this.filteredBooks.sort((a, b) => a.name.localeCompare(b.name));
@@ -107,18 +124,6 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       case 'Page count':
         this.filteredBooks = this.filteredBooks.sort((a, b) => a.pageCount - b.pageCount);
         break;
-    }
-
-    if (this.filterForm?.value.start && this.filterForm?.value.end) {
-
-      const startDate = new Date(this.filterForm?.value.start);
-      const endDate = new Date(this.filterForm?.value.end);
-
-      this.filteredBooks = this.filteredBooks.filter(b => {
-        const createdAt = new Date(b.createdAt);
-
-        return createdAt >= startDate && createdAt <= endDate;
-      });
     }
   }
 
@@ -139,5 +144,29 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       start: [null],
       end: [null],
     })
+  }
+
+  public setThisMonth() {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    this.filterForm?.get('start')?.setValue(firstDayOfMonth);
+    this.filterForm?.get('end')?.setValue(lastDayOfMonth);
+    this.filterBooks();
+  }
+
+  public setThisYear() {
+    const today = new Date();
+    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+    const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
+    this.filterForm?.get('start')?.setValue(firstDayOfYear);
+    this.filterForm?.get('end')?.setValue(lastDayOfYear);
+    this.filterBooks();
+  }
+
+  public resetDate() {
+    this.filterForm?.get('start')?.setValue(null);
+    this.filterForm?.get('end')?.setValue(null);
+    this.filterBooks();
   }
 }
