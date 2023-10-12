@@ -8,6 +8,9 @@ import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.c
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import * as XLSX from 'xlsx';
+import { jsPDF} from "jspdf";
+import 'jspdf-autotable';
+import autoTable from "jspdf-autotable";
 
 @Component({
   selector: 'app-books-page',
@@ -165,6 +168,24 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Books');
     XLSX.writeFile(wb, 'Books.xlsx');
+  }
+
+  public exportPDF(){
+    var doc = new jsPDF();
+    var col = ["Id", "Name", "Description", "Page count", "Crated At"];
+    var rows: any[] = [];
+
+    this.filteredBooks.forEach(element => {
+      var temp = [element.id, element.name, element.description, element.pageCount, element.createdAt];
+      rows.push(temp);
+
+    });
+
+    autoTable(doc,{
+      head: [col],
+      body: rows
+    })
+    doc.save('Books.pdf');
   }
 
   private sortBooks(){
