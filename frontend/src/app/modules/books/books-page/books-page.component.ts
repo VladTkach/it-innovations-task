@@ -22,6 +22,9 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
 
   public filterForm?: FormGroup;
 
+  public updatedBook?: UpdateBookDto;
+  public showCancelBtn = false;
+
   constructor(public dialog: MatDialog,
               private bookService: BookService,
               private formBuilder: FormBuilder) {
@@ -51,12 +54,12 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public updateBook(book: BookDto) {
-    const updatedBook: UpdateBookDto = {
+     this.updatedBook = {
       id: book.id,
       name: book.name,
       description: book.description,
       pageCount: book.pageCount,
-      createdAt: book.createdAt
+      createdAt: new Date(book.createdAt)
     }
 
     const dialogRef = this.dialog.open(CreateBookModalComponent, {
@@ -64,7 +67,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       autoFocus: false,
       data: {
         isUpdate: true,
-        updateBook: updatedBook
+        updateBook: {...this.updatedBook}
       }
     });
 
@@ -75,6 +78,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
         this.filterBooks();
       }
       dialogRef.close();
+      this.showCancelBtn = true;
     })
 
   }
@@ -89,6 +93,24 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
           if (bookIndex !== -1) {
             this.books.splice(bookIndex, 1);
           }
+        }
+      })
+  }
+
+  public cancelUpdate() {
+    if (!this.updatedBook){
+      return;
+    }
+    this.bookService.updateBook(this.updatedBook)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: newBook => {
+          const bookIndex = this.books.findIndex(b => b.id == newBook.id);
+          if (bookIndex != -1) {
+            this.books.splice(bookIndex, 1, newBook);
+            this.filterBooks();
+          }
+          this.showCancelBtn = false;
         }
       })
   }
