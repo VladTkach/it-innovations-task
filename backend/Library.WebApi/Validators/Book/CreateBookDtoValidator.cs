@@ -10,5 +10,6 @@ public class CreateBookDtoValidator: AbstractValidator<CreateBookDto>
         CommonValidationRules.ApplyCommonNameRule(RuleFor(b => b.Name));
         CommonValidationRules.ApplyCommonPageCountRule(RuleFor(b => b.PageCount));
         CommonValidationRules.ApplyCommonDescriptionRule(RuleFor(b => b.Description));
+        CommonValidationRules.ApplyCommonCreateAtRule(RuleFor(b => b.CreatedAt));
     }
 }

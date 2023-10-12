@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from "@angular/common/http";
 import {NgChartsModule} from "ng2-charts";
 import {ChartModule} from "./modules/chart/chart.module";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,10 @@ import {ChartModule} from "./modules/chart/chart.module";
     AppRoutingModule,
     HttpClientModule,
     NgChartsModule,
-    ChartModule
+    ChartModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,6 +8,7 @@ import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.c
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ExportService} from "../../../core/services/export.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-books-page',
@@ -30,7 +31,8 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private bookService: BookService,
               private formBuilder: FormBuilder,
-              private exportService: ExportService) {
+              private exportService: ExportService,
+              private toastr: ToastrService) {
     super();
   }
 
@@ -101,6 +103,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
         next: newBook => {
           this.updateBookHandle(newBook);
           this.showCancelBtn = false;
+          this.toastr.info("Book update successfully cancel")
         }
       })
   }
