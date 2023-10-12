@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {ExportService} from "../../../core/services/export.service";
 
 @Component({
   selector: 'app-books-page',
@@ -28,7 +29,8 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private bookService: BookService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private exportService: ExportService) {
     super();
   }
 
@@ -157,6 +159,14 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     }
 
     this.filterBooks();
+  }
+
+  public exportExcel() {
+    this.exportService.exportExcel(this.filteredBooks);
+  }
+
+  public exportPDF(){
+    this.exportService.exportPDF(this.filteredBooks);
   }
 
   private sortBooks(){
