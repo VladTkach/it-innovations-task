@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-books-page',
@@ -157,6 +158,13 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     }
 
     this.filterBooks();
+  }
+
+  public exportExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.filteredBooks);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Books');
+    XLSX.writeFile(wb, 'Books.xlsx');
   }
 
   private sortBooks(){
