@@ -93,6 +93,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
           if (bookIndex !== -1) {
             this.books.splice(bookIndex, 1);
           }
+          this.filterBooks();
         }
       })
   }
@@ -132,6 +133,30 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
     this.sortBooks();
   }
 
+  public setThisMonth() {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    this.filterForm?.get('start')?.setValue(firstDayOfMonth);
+    this.filterForm?.get('end')?.setValue(lastDayOfMonth);
+    this.filterBooks();
+  }
+
+  public setThisYear() {
+    const today = new Date();
+    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+    const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
+    this.filterForm?.get('start')?.setValue(firstDayOfYear);
+    this.filterForm?.get('end')?.setValue(lastDayOfYear);
+    this.filterBooks();
+  }
+
+  public resetDate() {
+    this.filterForm?.get('start')?.setValue(null);
+    this.filterForm?.get('end')?.setValue(null);
+    this.filterBooks();
+  }
+
   private sortBooks(){
     switch (this.selectedSort) {
       case 'Name':
@@ -167,29 +192,5 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       start: [null],
       end: [null],
     })
-  }
-
-  public setThisMonth() {
-    const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    this.filterForm?.get('start')?.setValue(firstDayOfMonth);
-    this.filterForm?.get('end')?.setValue(lastDayOfMonth);
-    this.filterBooks();
-  }
-
-  public setThisYear() {
-    const today = new Date();
-    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-    const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
-    this.filterForm?.get('start')?.setValue(firstDayOfYear);
-    this.filterForm?.get('end')?.setValue(lastDayOfYear);
-    this.filterBooks();
-  }
-
-  public resetDate() {
-    this.filterForm?.get('start')?.setValue(null);
-    this.filterForm?.get('end')?.setValue(null);
-    this.filterBooks();
   }
 }
