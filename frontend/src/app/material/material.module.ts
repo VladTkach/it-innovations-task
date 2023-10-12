@@ -7,6 +7,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [],
@@ -18,7 +20,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatDialogModule,
     MatInputModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSelectModule
   ],
   exports: [
     CommonModule,
@@ -28,7 +31,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatDialogModule,
     MatInputModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSelectModule
   ]
 })
 export class MaterialModule {

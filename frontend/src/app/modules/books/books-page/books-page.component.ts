@@ -7,7 +7,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {CreateBookModalComponent} from "../create-book-modal/create-book-modal.component";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-books-page',
@@ -17,6 +16,9 @@ import {group} from "@angular/animations";
 export class BooksPageComponent extends BaseComponent implements OnInit {
   public books: BookDto[] = [];
   public filteredBooks: BookDto[] = [];
+
+  public sortValue: string[] = ['Name', 'Date', 'Page count'];
+  public selectedSort?: string;
 
   public filterForm?: FormGroup;
 
@@ -89,7 +91,26 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public filterBooks() {
-    this.filteredBooks = this.books.filter(b => b.name.includes(this.filterForm?.value.name))
+    console.log(this.selectedSort);
+    this.filteredBooks = this.books.filter(b => b.name.includes(this.filterForm?.value.name));
+
+    switch (this.selectedSort) {
+      case 'Name':
+        this.filteredBooks = this.filteredBooks.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'Date':
+        this.filteredBooks = this.filteredBooks.sort((a, b) => {
+          if (a.createdAt > b.createdAt) return 1;
+          if (a.createdAt < b.createdAt) return -1;
+          return 0;
+        });
+        break;
+      case 'Page count':
+        this.filteredBooks = this.filteredBooks.sort((a, b) => a.pageCount - b.pageCount);
+        break;
+      default:
+      // Обробка за замовчуванням, якщо ви не вибрали жоден критерій сортування
+    }
   }
 
   private loadBooks() {

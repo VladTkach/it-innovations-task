@@ -7,6 +7,14 @@
         <mat-label>Name</mat-label>
         <input [formControl]="$any(filterForm!.controls['name'])" matInput (input)="filterBooks()">
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Sort By</mat-label>
+        <mat-select [(value)]="selectedSort" (selectionChange)="filterBooks()">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let option of sortValue" value="{{option}}">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
   <mat-divider></mat-divider>
