@@ -91,7 +91,6 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public filterBooks() {
-    console.log(this.selectedSort);
     this.filteredBooks = this.books.filter(b => b.name.includes(this.filterForm?.value.name));
 
     switch (this.selectedSort) {
@@ -108,8 +107,18 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       case 'Page count':
         this.filteredBooks = this.filteredBooks.sort((a, b) => a.pageCount - b.pageCount);
         break;
-      default:
-      // Обробка за замовчуванням, якщо ви не вибрали жоден критерій сортування
+    }
+
+    if (this.filterForm?.value.start && this.filterForm?.value.end) {
+
+      const startDate = new Date(this.filterForm?.value.start);
+      const endDate = new Date(this.filterForm?.value.end);
+
+      this.filteredBooks = this.filteredBooks.filter(b => {
+        const createdAt = new Date(b.createdAt);
+
+        return createdAt >= startDate && createdAt <= endDate;
+      });
     }
   }
 
@@ -127,6 +136,8 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   private loadForm() {
     this.filterForm = this.formBuilder.group({
       name: [''],
+      start: [null],
+      end: [null],
     })
   }
 }
