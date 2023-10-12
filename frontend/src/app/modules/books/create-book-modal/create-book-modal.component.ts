@@ -7,6 +7,7 @@ import {BaseComponent} from "../../../core/base/base.component";
 import {takeUntil} from "rxjs";
 import {BookDto} from "../../../models/book/book-dto";
 import {UpdateBookDto} from "../../../models/book/update-book-dto";
+import {DateFormatter} from "../../../shared/heplers/date-formatter";
 
 @Component({
   selector: 'app-create-book-modal',
@@ -40,11 +41,11 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
   }
 
   public create(){
-    console.log(this.bookForm?.value);
     const newBook: CreateBookDto = {
       name: this.bookForm?.value.name,
       description: this.bookForm?.value.description,
-      pageCount: this.bookForm?.value.pageCount
+      pageCount: this.bookForm?.value.pageCount,
+      createdAt: DateFormatter.formatDate(this.bookForm?.value.createdAt)
     }
 
     this.bookService.createBook(newBook)
@@ -65,6 +66,7 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
     this.updateBook.name = this.bookForm?.value.name;
     this.updateBook.description = this.bookForm?.value.description;
     this.updateBook.pageCount = this.bookForm?.value.pageCount;
+    this.updateBook.createdAt = DateFormatter.formatDate(this.bookForm?.value.createdAt);
 
     this.bookService.updateBook(this.updateBook)
       .pipe(takeUntil(this.unsubscribe$))
@@ -80,6 +82,7 @@ export class CreateBookModalComponent extends BaseComponent implements OnInit{
       name: [this.updateBook ? this.updateBook.name : '', Validators.required],
       description: [this.updateBook ? this.updateBook.description : ''],
       pageCount: [this.updateBook ? this.updateBook.pageCount : 1, Validators.required],
+      createdAt: [this.updateBook ? this.updateBook.createdAt : new Date(), Validators.required]
     })
   }
 }

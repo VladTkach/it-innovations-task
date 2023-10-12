@@ -3,4 +3,5 @@ export interface UpdateBookDto {
   name: string
   description: string
   pageCount: number
+  createdAt: Date
 }

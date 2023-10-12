@@ -55,7 +55,8 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       id: book.id,
       name: book.name,
       description: book.description,
-      pageCount: book.pageCount
+      pageCount: book.pageCount,
+      createdAt: book.createdAt
     }
 
     const dialogRef = this.dialog.open(CreateBookModalComponent, {

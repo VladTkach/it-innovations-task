@@ -1,6 +1,4 @@
 <mat-dialog-content>
-
-
   <div class="header">
     <h4 class="header-title">{{isUpdate ? 'Update' : 'Create new'}} book</h4>
     <button mat-icon-button (click)="close()">
@@ -29,6 +27,15 @@
         Page count is <strong>required</strong>
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field [style.width.%]="100">
+      <mat-label>Choose a date</mat-label>
+      <input [formControl]="$any(bookForm!.controls['createdAt'])" matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
   </form>
   <button mat-raised-button color="primary" [disabled]="bookForm!.invalid"
           (click)="isUpdate ? update() : create()">{{isUpdate ? 'Update' : 'Create'}}</button>
