@@ -22,6 +22,9 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
 
   public filterForm?: FormGroup;
 
+  public updatedBook?: UpdateBookDto;
+  public showCancelBtn = false;
+
   constructor(public dialog: MatDialog,
               private bookService: BookService,
               private formBuilder: FormBuilder) {
@@ -51,12 +54,12 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
   }
 
   public updateBook(book: BookDto) {
-    const updatedBook: UpdateBookDto = {
+     this.updatedBook = {
       id: book.id,
       name: book.name,
       description: book.description,
       pageCount: book.pageCount,
-      createdAt: book.createdAt
+      createdAt: new Date(book.createdAt)
     }
 
     const dialogRef = this.dialog.open(CreateBookModalComponent, {
@@ -64,7 +67,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       autoFocus: false,
       data: {
         isUpdate: true,
-        updateBook: updatedBook
+        updateBook: {...this.updatedBook}
       }
     });
 
@@ -75,6 +78,7 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
         this.filterBooks();
       }
       dialogRef.close();
+      this.showCancelBtn = true;
     })
 
   }
@@ -89,6 +93,25 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
           if (bookIndex !== -1) {
             this.books.splice(bookIndex, 1);
           }
+          this.filterBooks();
+        }
+      })
+  }
+
+  public cancelUpdate() {
+    if (!this.updatedBook){
+      return;
+    }
+    this.bookService.updateBook(this.updatedBook)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: newBook => {
+          const bookIndex = this.books.findIndex(b => b.id == newBook.id);
+          if (bookIndex != -1) {
+            this.books.splice(bookIndex, 1, newBook);
+            this.filterBooks();
+          }
+          this.showCancelBtn = false;
         }
       })
   }
@@ -108,6 +131,30 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       });
     }
     this.sortBooks();
+  }
+
+  public setThisMonth() {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    this.filterForm?.get('start')?.setValue(firstDayOfMonth);
+    this.filterForm?.get('end')?.setValue(lastDayOfMonth);
+    this.filterBooks();
+  }
+
+  public setThisYear() {
+    const today = new Date();
+    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+    const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
+    this.filterForm?.get('start')?.setValue(firstDayOfYear);
+    this.filterForm?.get('end')?.setValue(lastDayOfYear);
+    this.filterBooks();
+  }
+
+  public resetDate() {
+    this.filterForm?.get('start')?.setValue(null);
+    this.filterForm?.get('end')?.setValue(null);
+    this.filterBooks();
   }
 
   private sortBooks(){
@@ -145,29 +192,5 @@ export class BooksPageComponent extends BaseComponent implements OnInit {
       start: [null],
       end: [null],
     })
-  }
-
-  public setThisMonth() {
-    const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    this.filterForm?.get('start')?.setValue(firstDayOfMonth);
-    this.filterForm?.get('end')?.setValue(lastDayOfMonth);
-    this.filterBooks();
-  }
-
-  public setThisYear() {
-    const today = new Date();
-    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-    const lastDayOfYear = new Date(today.getFullYear(), 11, 31);
-    this.filterForm?.get('start')?.setValue(firstDayOfYear);
-    this.filterForm?.get('end')?.setValue(lastDayOfYear);
-    this.filterBooks();
-  }
-
-  public resetDate() {
-    this.filterForm?.get('start')?.setValue(null);
-    this.filterForm?.get('end')?.setValue(null);
-    this.filterBooks();
   }
 }
